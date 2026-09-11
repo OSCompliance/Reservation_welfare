@@ -10,7 +10,7 @@ services:
       POSTGRES_PASSWORD: welfare123
       POSTGRES_DB: welfare_db
     ports:
-      - "5432:5432"
+      - "${DB_PORT:-5433}:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
@@ -26,7 +26,7 @@ services:
     image: redis:7-alpine
     container_name: welfare-redis
     ports:
-      - "6379:6379"
+      - "${REDIS_PORT:-6380}:6379"
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 10s
@@ -45,11 +45,11 @@ services:
       DATABASE_URL: postgresql://welfare:welfare123@postgres:5432/welfare_db
       REDIS_URL: redis://redis:6379/0
       ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY}
-      ENVIRONMENT: development
-      CORS_ORIGINS: http://localhost:3000
+      ENVIRONMENT: ${ENVIRONMENT:-development}
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:3001}
       PORT: 8000
     ports:
-      - "8000:8000"
+      - "${BACKEND_PORT:-8001}:8000"
     depends_on:
       postgres:
         condition: service_healthy
@@ -61,22 +61,22 @@ services:
     networks:
       - welfare-network
 
-  # Next.js Frontend (optional for docker-compose)
-  # Frontend is typically run separately with `npm run dev`
+  # Next.js Frontend
   frontend:
     build:
       context: .
       dockerfile: frontend/Dockerfile
     container_name: welfare-frontend
-    ports:
-      - "3000:3000"
     environment:
-      NEXT_PUBLIC_API_URL: http://backend:8000
+      NEXT_PUBLIC_API_URL: http://localhost:${BACKEND_PORT:-8001}
       NEXT_PUBLIC_DEFAULT_LANGUAGE: ta
+    ports:
+      - "${FRONTEND_PORT:-3001}:3000"
     depends_on:
       - backend
     volumes:
       - ./frontend/src:/app/src
+      - ./frontend/package.json:/app/package.json
     networks:
       - welfare-network
 
