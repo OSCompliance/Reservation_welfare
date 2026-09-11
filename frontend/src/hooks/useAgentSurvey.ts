@@ -1,4 +1,4 @@
-"""Hook for interacting with agent API"""
+// Hook for interacting with agent API
 import { useCallback, useState } from 'react';
 import { useSurveyStore } from '@/lib/store';
 import type { Language } from '@/lib/languages';

@@ -1,4 +1,4 @@
-"""Main multilingual survey component"""
+// Main multilingual survey component
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
@@ -35,7 +35,7 @@ export const MultilingualSurvey: React.FC<MultilingualSurveyProps> = ({
 
   // Initialize speech recognition
   useEffect(() => {
-    const SpeechRecognition = window.webkitSpeechRecognition || (window as any).SpeechRecognition;
+    const SpeechRecognition = (window as any).webkitSpeechRecognition || (window as any).SpeechRecognition;
     if (SpeechRecognition) {
       recognitionRef.current = new SpeechRecognition();
       recognitionRef.current.lang = LANGUAGES[language].code;

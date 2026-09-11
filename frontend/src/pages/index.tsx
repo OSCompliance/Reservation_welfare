@@ -1,4 +1,4 @@
-"""Home page - Survey entry"""
+// Home page - Survey entry
 import React, { useState } from 'react';
 import { MultilingualSurvey } from '@/components/MultilingualSurvey';
 import type { Language } from '@/lib/languages';
