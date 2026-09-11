@@ -1,22 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
-  swcMinify: true,
-  
-  // Enable PWA
-  headers: async () => {
-    return [
-      {
-        source: '/sw.js',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=0, must-revalidate',
-          },
-        ],
-      },
-    ]
+  output: 'export',
+  images: {
+    unoptimized: true,
   },
+  basePath: '/Reservation_welfare',
+  assetPrefix: '/Reservation_welfare',
 }
 
 module.exports = nextConfig
