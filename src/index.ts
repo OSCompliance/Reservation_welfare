@@ -9,16 +9,24 @@ interface Env {
 
 const app = new Hono<{ Bindings: Env }>();
 
-// CORS middleware
+// CORS middleware - handle all OPTIONS requests
 app.use('*', cors({
-  origin: ['https://OSCompliance.github.io', 'http://localhost:3000', 'http://localhost:5677'],
+  origin: '*',
   allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowHeaders: ['Content-Type', 'Authorization'],
 }));
 
-// Health check
+// Health check - simple endpoint
 app.get('/health', (c) => {
-  return c.json({ status: 'ok', timestamp: new Date().toISOString() });
+  try {
+    return c.json({
+      status: 'ok',
+      timestamp: new Date().toISOString(),
+      worker: 'muslim-welfare-api'
+    });
+  } catch (error) {
+    return c.json({ error: 'Health check failed', message: String(error) }, 500);
+  }
 });
 
 // Start survey - get first question
