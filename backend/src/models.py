@@ -123,7 +123,7 @@ class Member(Base):
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid4)
     household_id = Column(UUID(as_uuid=True), ForeignKey('households.id'), nullable=False)
 
-    relationship = Column(String(50))
+    member_relationship = Column(String(50))
     age = Column(Integer)
     gender = Column(String(20))
     marital_status = Column(String(50))
@@ -373,6 +373,7 @@ class SyncQueue(Base):
     table_name = Column(String(255))
     payload = Column(JSONB)
 
+    status = Column(String(50))  # Pending, Synced, Failed
     synced_at = Column(DateTime)
     error_message = Column(Text)
 
