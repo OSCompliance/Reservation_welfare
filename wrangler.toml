@@ -1,0 +1,24 @@
+name = "muslim-welfare-api"
+type = "service"
+main = "src/index.ts"
+compatibility_date = "2024-09-12"
+
+# Environment variables
+vars = { ENVIRONMENT = "production" }
+env.production.vars = { ENVIRONMENT = "production" }
+
+# D1 Database binding
+[[d1_databases]]
+binding = "DB"
+database_name = "welfare_db"
+database_id = "YOUR_DATABASE_ID"
+
+# Service bindings for other workers
+[env.production]
+route = "api.welfare.workers.dev"
+zone_id = "YOUR_ZONE_ID"
+
+# KV Namespace for caching (optional)
+# [[kv_namespaces]]
+# binding = "CACHE"
+# id = "YOUR_KV_ID"
